@@ -87,9 +87,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ArrowController.cs" />
     <Compile Include="Assets\ArrowProc.cs" />
     <Compile Include="Assets\GameManeger.cs" />
-    <Compile Include="Assets\old\ArrowController.cs" />
     <Compile Include="Assets\old\ArrowGenerator.cs" />
     <Compile Include="Assets\old\PlayerController.cs" />
     <Compile Include="Assets\old\PlayerController2.cs" />

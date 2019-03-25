@@ -7,10 +7,13 @@ public class ArrowController : MonoBehaviour {
 
 
     public GameObject player;
+    public GameObject gameManeger;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
                this.player = GameObject.Find("player");
+               gameManeger = GameObject.Find("GameManeger");
         //
     }
 
@@ -32,11 +35,11 @@ public class ArrowController : MonoBehaviour {
 
         if (d < r1 + r2)
         {
-            GameObject gameManeger = GameObject.Find("GameManeger");
             gameManeger.GetComponent<GameManeger>().DecreaseHp();
             Destroy(this.gameObject);
         }
 
 
     }
+    
 }
