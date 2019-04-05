@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManeger : MonoBehaviour {
@@ -18,8 +16,13 @@ public class GameManeger : MonoBehaviour {
     int px;
     int Life = 10;
 
+    //private List<GameObject> go;
+    //private GameObject list = new List<GameObject>();
+    private List<GameObject> go = new List<GameObject>();
+
     // Use this for initialization
     void Start () {
+//        go = new List<GameObject>();
         hpGauge = GameObject.Find("hpGauge");
         player = GameObject.Find("player");
         message = GameObject.Find("Message");
@@ -29,31 +32,67 @@ public class GameManeger : MonoBehaviour {
 
     void Update()
     {
-        
-        player.GetComponent<ArrowProc>().SetCollisionCallBack(CollisionEnter2DCallback);
-//        MovePlayer();
+
+        //player.GetComponent<ArrowProc>().SetCollisionCallBack(CollisionEnter2DCallback);
+
+        //        MovePlayer();
         ArrowGeneration();
-    }
+        //        Vector3 pos = go.transform.position;
+        //矢が１つでも有ったら動く
+        //foreachを学ぶ
+        //findobjects
 
-    public void ArrowGeneration()
-    {
-        delta += Time.deltaTime;
-        if (delta > span)
+        foreach (GameObject s in go)
         {
-            this.delta = 0.0f;
-            GameObject go = Instantiate(ArrowPrefab) as GameObject;
-            px = UnityEngine.Random.Range(-6, 7);
-            go.transform.position = new Vector3(px, 7, 0);
-
-            if (go.transform.position.y < -5.0f)
+            s.transform.Translate(0, -0.1f, 0);
+            //       go.transform.position = new Vector3(pos.x, pos.y - 0.1f, pos.z);
+            if (s.transform.position.y < -7.0f)
             {
-                Destroy(go.gameObject);
+                for (var num = go.Count - 1; 0 < go.Count; num--)
+                {
+
+                    Destroy(go[num]); //オブジェクトの削除
+                    go.RemoveAt(num); //リストの削除
+                }
             }
+
         }
+
+
+
+
+    }
+
+    private void ArrowGeneration()
+    {
+        delta = delta + 0.1f ;
+
+        //矢が３つまでしか現れない。
+        if (go.Count < 3)
+        {
+            if (delta > span)
+            {
+                delta = 0.0f;
+                go.Add(Instantiate(ArrowPrefab) as GameObject);
+                px = UnityEngine.Random.Range(-6, 7);
+                go[go.Count - 1].transform.position = new Vector3(px, 7, 0);
+
+            }
+
+        }
+
+        //List化する。
+        //配列の宣言を覚える。
+
+
+
+
+
+
     }
 
 
-//    public void MovePlayer()
+    //    public void MovePlayer()
 
     public void LButtonDown()
     {
@@ -113,7 +152,7 @@ if (Input.GetKeyDown(KeyCode.RightArrow))
 }
     */
 
-    public void DecreaseHp()
+    private void DecreaseHp()
     {
         this.hpGauge.GetComponent<Image>().fillAmount -= 0.1f;
         Life = Life - 1;
@@ -132,7 +171,8 @@ if (Input.GetKeyDown(KeyCode.RightArrow))
 
         if (tag == "arrow")
         {
-            player.SetActive(false);
+            DecreaseHp();
+            //player.SetActive(false);
         }
 
     
